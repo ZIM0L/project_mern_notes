@@ -1,6 +1,6 @@
 import app from "./app";
 import mongoose from "mongoose";
-import { env } from "./utils/validEnv"
+import env from "./utils/validEnv"
 
 const port = process.env.PORT; //dotenv (process)
 
@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 
 mongoose.connect(env.MONGO_CONNECTION_STRING)
 .then(() => {
-  console.log("connected    ");
+  console.log("connected");
   app.listen(port, () => {
     console.log("SERVER STARTED");
   });
