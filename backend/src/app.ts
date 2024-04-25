@@ -2,6 +2,7 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import notesRouter from "./routes/routesNote";
 import routeBlog from "./routes/routerBlog";
+import createHttpError, { isHttpError } from "http-errors";
 
 const app = express();
 
@@ -11,19 +12,19 @@ app.use("/api/notes",notesRouter)
 app.use("/",routeBlog)
 
 app.use((req,res,next)=>{
-  next(Error("No endpoint"))
+  next(createHttpError(404,"No endpoint!"))
 })
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(( error : unknown, req: Request, res : Response, next: NextFunction)=> {
   let errorMsg = "random error";
-  if (error instanceof Error) {
-    errorMsg = error.message; //necessary ?
-    console.error(errorMsg);
+  let statusCode = 500; //default
+  if (isHttpError(error)) { // is this error instance of createHttpError
+    statusCode = error.statusCode
+    errorMsg = error.message
   }
-  res.status(404).json({ error: errorMsg });
+  res.status(statusCode).json({ error: errorMsg });
 });
 
 export default app;
 
-// actuall requests

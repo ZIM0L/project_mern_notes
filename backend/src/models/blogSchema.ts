@@ -5,6 +5,6 @@ const blogSchema = new Schema({
    author: String
 }, {timestamps: true});
 
-type animal = InferSchemaType<typeof blogSchema>; // new type of type
+type animal = InferSchemaType<typeof blogSchema>; // new type of type, not rlly needed
 
 export default model<animal>("Blog", blogSchema); // first argument is a model NAME, second is our schema 
