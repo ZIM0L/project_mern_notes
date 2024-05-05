@@ -96,7 +96,7 @@ export const deleteNote: RequestHandler <DeleteNoteParamas, unknown, unknown> = 
   try {
 
     if (!mongoose.isValidObjectId(noteId)) {
-      throw createHttpError(400,"invalid note Id")
+      throw createHttpError(400,"Invalid note Id")
     }
     const note = await NoteModel.findById(noteId);
     
