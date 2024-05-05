@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import notesRouter from "./routes/routesNote";
-import routeBlog from "./routes/routerBlog";
 import createHttpError, { isHttpError } from "http-errors";
 
 const app = express();
@@ -9,7 +8,6 @@ const app = express();
 app.use(express.json())
 
 app.use("/api/notes",notesRouter)
-app.use("/",routeBlog)
 
 app.use((req,res,next)=>{
   next(createHttpError(404,"No endpoint!"))
