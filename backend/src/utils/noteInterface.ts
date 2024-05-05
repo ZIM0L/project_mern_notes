@@ -9,3 +9,6 @@ export interface UpdateNoteBody {
 export interface UpdateNoteParams {
     noteId?: string,
 }
+export interface DeleteNoteParamas {
+    noteId?: string
+}
