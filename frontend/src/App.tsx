@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Note } from "./models/note";
+import Button from '@mui/material/Button';
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -19,10 +20,11 @@ function App() {
       }
     };
     fetchData();
-  }, [notes]);
+  }, []);
   return(
   <div className=" text-white">
     {JSON.stringify(notes)}
+    <Button className="text-red-500" variant="text" >Text</Button>
   </div>
   )
 }
