@@ -1,9 +1,12 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
+import cors from "cors"
 import notesRouter from "./routes/routesNote";
 import createHttpError, { isHttpError } from "http-errors";
 
 const app = express();
+
+app.use(cors())
 
 app.use(express.json())
 
