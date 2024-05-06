@@ -8,3 +8,4 @@ WHAT I LEARNED:
 -- generics in ts
 -- createhttpErrors
 -- what is CORS
+-- how fetch works
