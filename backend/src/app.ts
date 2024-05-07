@@ -12,10 +12,10 @@ app.use(express.json())
 
 app.use("/api/notes",notesRouter)
 
+
 app.use((req,res,next)=>{
   next(createHttpError(404,"No endpoint!"))
 })
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(( error : unknown, req: Request, res : Response, next: NextFunction)=> {
   let errorMsg = "random error";
@@ -26,6 +26,7 @@ app.use(( error : unknown, req: Request, res : Response, next: NextFunction)=> {
   }
   res.status(statusCode).json({ error: errorMsg });
 });
+
 
 export default app;
 

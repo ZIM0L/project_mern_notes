@@ -2,49 +2,44 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Note from "./components/Notes";
 import { Note as NotesType } from "./models/note";
-import { AppBar, Box, Grid, Toolbar, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import TopBar from "./components/TopBar";
+import  * as NotesApi  from "./api/notes_api";
+import NoteDialogPopUp from "./components/NoteDialogPopUp";
 
 function App() {
   const [notes, setNotes] = useState<NotesType[]>([]);
 
+  const [showAddNoteDialog, setShowAddNoteDialog] = useState(false)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetch("http://localhost:5000/api/notes", {
-          method: "GET",
-        }).then(async (response) => {
-          const notes = await response.json();
-          setNotes(notes);
-        });
+        const notes = await NotesApi.fetchDataGetReq()
+        setNotes(notes);
       } catch (error) {
-        console.error(error);
+        console.info(error)
       }
     };
     fetchData();
   }, []);
   return (
     <div>
-      <Box>
-        <AppBar position="relative" sx={{
-          bgcolor:'primary.dark'
-        }}>
-          <Toolbar>
-            <Typography variant="h6">Basic notePad</Typography>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      
+      <TopBar />
+      <Button onClick={() => setShowAddNoteDialog(true)} variant="contained">
+          Add new Note
+        </Button>
       <Grid container spacing={1} padding={3}>
-        {notes.map((singleNote) => {
+        {notes.map((singleNote, key) => {
           return (
-            <>
-              <Grid item xs={12} sm={6} md={4}>
+              <Grid item xs={12} sm={6} md={4} key={key}>
                 <Note note={singleNote} key={singleNote._id} />
               </Grid>
-            </>
           );
         })}
       </Grid>
+      {showAddNoteDialog &&
+      <NoteDialogPopUp onClose={() => setShowAddNoteDialog(false)} />
+      }
     </div>
   );
 }
