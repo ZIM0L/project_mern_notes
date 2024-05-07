@@ -1,13 +1,14 @@
 import { Container, Typography } from "@mui/material";
-import { NoteProps } from "../utils/PropsTypes";
+import { NoteProps } from "../interfaces/PropsTypes";
 
 const Note = ({ note }: NoteProps) => {
+  const checkWhichBiggerDate = (): string => {
+    const { createdAt, updatedAt } = note;
+    return updatedAt > createdAt
+      ? "Updated " + updatedAt
+      : "Created " + updatedAt;
+  };
 
-  const checkWhichBiggerDate = ( ) : string => {
-    const { createdAt, updatedAt} = note;
-    return updatedAt > createdAt ? "Updated " + updatedAt : "Created " + updatedAt;
-  }    
-    
   return (
     <>
       <Container
@@ -32,7 +33,7 @@ const Note = ({ note }: NoteProps) => {
       </Container>
       <Container
         sx={{
-          paddingY:0.5,
+          paddingY: 0.5,
           bgcolor: "primary.main",
           border: "1px solid black",
           borderTop: "none",
