@@ -14,7 +14,7 @@ const Note = ({ note }: NoteProps) => {
       <Container
         sx={{
           paddingY: 1,
-          bgcolor: "primary.main",
+          bgcolor: "primary.light",
           border: "1px solid black",
           height: 150,
           overflow: "auto",

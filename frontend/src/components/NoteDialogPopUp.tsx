@@ -1,83 +1,103 @@
 import {
   Container,
   Divider,
-  Button,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Input,
-  InputLabel,
+  Box,
   Modal,
-  TextField,
+  Alert,
   Typography,
+  TextField,
+  Button,
 } from "@mui/material";
-import { useState } from "react";
-import { DialogProps } from "../interfaces/PropsTypes";
+import { DialogProps, NoteInput } from "../interfaces/PropsTypes";
+import { useForm } from "react-hook-form";
+import * as NotesApi from "../api/notes_api";
 
-const NoteDialogPopUp = ({ onClose }: DialogProps) => {
+const NoteDialogPopUp = ({ onDismiss, onSave }: DialogProps) => {
 
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-  
-    const handleChangeInput1 = (event : HTMLInputElement) => {
-    console.log(event.target.value)
-    setInput1(event.target.value);
-    };
-  
-    const handleChangeInput2 = (event) => {
-      setInput2(event.target.value);
-    };
-  
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      // Do something with the form data
-      console.log('Input 1:', input1);
-      console.log('Input 2:', input2);
-    };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<NoteInput>();
+
+  const onSubmit = async (input: NoteInput) => {
+    try {
+     const noteJustCreated = await NotesApi.createNote(input);
+     onSave(noteJustCreated)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <Modal open onClose={onClose}>
+    <Modal open onClose={onDismiss}>
       <Container
         sx={{
-          marginTop:5,
+          marginTop: 5,
           maxWidth: "90%",
           paddingY: 1,
-          bgcolor: "primary.main",
+          bgcolor: "#fff",
           border: "1px solid black",
-          borderRadius:2,
+          borderRadius: 1,
           height: "fit-content",
           overflow: "auto",
           scrollBehavior: "smooth",
-        
-         
         }}
       >
-        <Typography variant="h5">
-            Add Note
+        <Typography variant="h4" paddingY={2}>
+          Add Note
         </Typography>
-        <Divider variant="fullWidth"/>
-        <form onSubmit={handleSubmit}>
-      <div>
-        <Typography variant="body1">Label 1:</Typography>
-        <Input
-          value={input1}
-          onChange={() => handleChangeInput1}
+        <Divider
+          variant="fullWidth"
+          sx={{
+            marginBottom: 4,
+          }}
         />
-      </div>
-      <div>
-        <Typography variant="body1">Label 2:</Typography>
-        <Input
-  
-          value={input2}
-          onChange={() => handleChangeInput2}
-        />
-      </div>
-      <div>
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
-      </div>
-    </form>
+        <form id="addNoteForm" onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            <TextField
+              label="Title"
+              placeholder="Title"
+              {...register("title", { required: "Required" })}
+              required={!!errors.title?.message}
+            />
+            <TextField
+              label="Text"
+              placeholder="Text"
+              multiline
+              rows={3}
+              {...register("text")}
+            />
+            {
+              errors.title?.message &&
+             <Alert severity="warning">Title is needed in order to create note.</Alert>
+            }
+
+            <Box
+              sx={{
+                alignSelf: "flex-end",
+              }}
+            >
+              <Button
+                type="submit"
+                form={"addNoteForm"}
+                variant="contained"
+                disabled={isSubmitting}
+                sx={{
+                  marginRight: 0,
+                }}
+              >
+                Create Note
+              </Button>
+            </Box>
+          </Box>
+        </form>
       </Container>
     </Modal>
   );

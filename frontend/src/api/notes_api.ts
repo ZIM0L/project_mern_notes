@@ -13,8 +13,8 @@ export const fetchDataGetReq = async (): Promise<Note[]> => {
   });
 };
 export const createNote = async (
-  note: NoteInput | NoteInput[]
-): Promise<NoteInput | NoteInput[]> => {
+  note: NoteInput
+): Promise<Note> => {
     return await fetch("http://localhost:5000/api/notes",
     { method: "POST",
       headers: {

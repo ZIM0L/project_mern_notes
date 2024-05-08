@@ -4,7 +4,13 @@ export type NoteProps = {
     note: Note
 }
 export type DialogProps = {
-    onClose : () => void 
+    onDismiss : () => void 
+    onSave: (note : Note) => void
+}
+export type TopBarProps = {
+    onDismiss : (input : boolean) => void 
+    onSave: (note : Note) => void
+    
 }
 
 export type NoteInput = {

@@ -9,3 +9,5 @@ WHAT I LEARNED:
 -- createhttpErrors
 -- what is CORS
 -- how fetch works
+-- learned what is react-hook-form (usefull)
+-- exploring MUI

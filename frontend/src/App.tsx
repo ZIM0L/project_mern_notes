@@ -11,6 +11,7 @@ function App() {
   const [notes, setNotes] = useState<NotesType[]>([]);
 
   const [showAddNoteDialog, setShowAddNoteDialog] = useState(false)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,7 +25,7 @@ function App() {
   }, []);
   return (
     <div>
-      <TopBar />
+      {/* <TopBar onDismiss={(input : boolean) => setShowTopBar(input)}/> */}
       <Button onClick={() => setShowAddNoteDialog(true)} variant="contained">
           Add new Note
         </Button>
@@ -38,7 +39,11 @@ function App() {
         })}
       </Grid>
       {showAddNoteDialog &&
-      <NoteDialogPopUp onClose={() => setShowAddNoteDialog(false)} />
+      <NoteDialogPopUp onDismiss={() => setShowAddNoteDialog(false)} onSave={(newNote) =>{
+        setNotes([...notes,newNote]);
+        setShowAddNoteDialog(false);
+      }
+      } />
       }
     </div>
   );
