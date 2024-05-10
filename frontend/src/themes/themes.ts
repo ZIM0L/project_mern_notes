@@ -6,7 +6,7 @@ export const themePallete = createTheme({
       dark: '#FEC372'
     },
     secondary: {
-      main: '#FF2E00',
+      main: '#000',
     },
     
   },

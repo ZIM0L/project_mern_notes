@@ -1,7 +1,8 @@
 import { Container, Typography } from "@mui/material";
 import { NoteProps } from "../interfaces/PropsTypes";
+import { MdDeleteForever } from "react-icons/md";
 
-const Note = ({ note }: NoteProps) => {
+const Note = ({ note,onNoteClicked, onDeleteNoteClick }: NoteProps) => {
   const checkWhichBiggerDate = (): string => {
     const { createdAt, updatedAt } = note;
     return updatedAt > createdAt
@@ -10,7 +11,9 @@ const Note = ({ note }: NoteProps) => {
   };
 
   return (
-    <>
+    <div className=" cursor-pointer" title="Edit" onClick={()=> {
+      onNoteClicked(note)
+    }}>
       <Container
         sx={{
           paddingY: 1,
@@ -24,13 +27,17 @@ const Note = ({ note }: NoteProps) => {
           alignItems: "flex-start",
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold", display:"flex", justifyContent:"space-between", width:"100%" }}>
           {note.title}
+        <MdDeleteForever className={"hover:cursor-pointer"} onClick={(e)=> {
+          e.stopPropagation();
+          onDeleteNoteClick(note)
+        }} />
         </Typography>
         <Typography variant="body1" sx={{ flexGrow: 1 }}>
           {note.text}
         </Typography>
-      </Container>
+      </Container >
       <Container
         sx={{
           paddingY: 0.5,
@@ -41,7 +48,7 @@ const Note = ({ note }: NoteProps) => {
       >
         <Typography variant="body2">{checkWhichBiggerDate()}</Typography>
       </Container>
-    </>
+    </div>
   );
 };
 

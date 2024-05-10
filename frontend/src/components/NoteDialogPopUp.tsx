@@ -11,19 +11,32 @@ import {
 import { DialogProps, NoteInput } from "../interfaces/PropsTypes";
 import { useForm } from "react-hook-form";
 import * as NotesApi from "../api/notes_api";
+import { Note } from "../models/note";
 
-const NoteDialogPopUp = ({ onDismiss, onSave }: DialogProps) => {
+
+const NoteDialogPopUp = ({noteToEdit, onDismiss, onSave }: DialogProps) => {
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<NoteInput>();
+  } = useForm<NoteInput>({
+    defaultValues: {
+      title: noteToEdit?.title || "",
+      text: noteToEdit?.text || ""
+    }
+  });
 
   const onSubmit = async (input: NoteInput) => {
     try {
-     const noteJustCreated = await NotesApi.createNote(input);
-     onSave(noteJustCreated)
+     let noteResponse: Note;
+     if (noteToEdit) {
+        noteResponse = await NotesApi.updateNote(noteToEdit._id, input)     
+     } else{
+       noteResponse = await NotesApi.createNote(input);
+
+     }
+     onSave(noteResponse)
     } catch (error) {
       console.error(error);
     }
@@ -31,6 +44,7 @@ const NoteDialogPopUp = ({ onDismiss, onSave }: DialogProps) => {
 
   return (
     <Modal open onClose={onDismiss}>
+      
       <Container
         sx={{
           marginTop: 5,
@@ -45,7 +59,7 @@ const NoteDialogPopUp = ({ onDismiss, onSave }: DialogProps) => {
         }}
       >
         <Typography variant="h4" paddingY={2}>
-          Add Note
+          {noteToEdit ? "Edit note" : "Add note"}
         </Typography>
         <Divider
           variant="fullWidth"
@@ -53,7 +67,7 @@ const NoteDialogPopUp = ({ onDismiss, onSave }: DialogProps) => {
             marginBottom: 4,
           }}
         />
-        <form id="addNoteForm" onSubmit={handleSubmit(onSubmit)}>
+        <form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
               display: "flex",
@@ -86,14 +100,14 @@ const NoteDialogPopUp = ({ onDismiss, onSave }: DialogProps) => {
             >
               <Button
                 type="submit"
-                form={"addNoteForm"}
+                form={"addEditNoteForm"}
                 variant="contained"
                 disabled={isSubmitting}
                 sx={{
                   marginRight: 0,
                 }}
               >
-                Create Note
+                {noteToEdit ? "Edit note" : "Create note"}
               </Button>
             </Box>
           </Box>

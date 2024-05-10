@@ -18,7 +18,7 @@ const TopBar = ({ notes,setNote }: TopBarProps) => {
 
   return (
     <>
-      <AppBar sx={{position:"relative"}}>
+      <AppBar >
         <Button variant='contained' onClick={() => setShowTopBar(true)}>Open drawer</Button>
 
       </AppBar>
@@ -27,12 +27,7 @@ const TopBar = ({ notes,setNote }: TopBarProps) => {
           <ListItem>
             <ListItemButton onClick={handleOpenDialog}>Add Note</ListItemButton>
           </ListItem>
-          <ListItem>
-            <ListItemButton onClick={handleOpenDialog}>Delete Note</ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton onClick={handleOpenDialog}>Update Note</ListItemButton>
-          </ListItem>
+
         </List>
       </Drawer>
       {showAddNoteDialog && (
