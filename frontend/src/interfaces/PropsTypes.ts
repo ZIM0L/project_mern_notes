@@ -8,9 +8,8 @@ export type DialogProps = {
     onSave: (note : Note) => void
 }
 export type TopBarProps = {
-    onDismiss : (input : boolean) => void 
-    onSave: (note : Note) => void
-    
+    notes : Note[],
+    setNote : (input : Note[]) => void
 }
 
 export type NoteInput = {
