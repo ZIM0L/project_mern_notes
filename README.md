@@ -11,3 +11,6 @@ WHAT I LEARNED:
 -- how fetch works
 -- learned what is react-hook-form (usefull)
 -- exploring MUI
+-- how to adjust types to my needs
+-- bcrypt for hashing 
+-- difference between cookie, session and token
