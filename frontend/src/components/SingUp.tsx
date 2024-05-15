@@ -1,43 +1,32 @@
+import { SignUpAndLoginModalProps } from "../interfaces/PropsTypes";
+import { useForm } from "react-hook-form";
+import { SignUpWithCredentials } from "../models/user";
+import * as NotesApi from "../api/notes_api";
 import {
-  Container,
-  Divider,
   Box,
+  Button,
+  Divider,
+  Container,
   Modal,
   Typography,
-  Button,
 } from "@mui/material";
-import { DialogProps, NoteInput } from "../interfaces/PropsTypes";
-import { useForm } from "react-hook-form";
-import * as NotesApi from "../api/notes_api";
-import { Note } from "../models/note";
 import TextInputField from "./forms/TextInputField";
 
-const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
+const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<NoteInput>({
-    defaultValues: {
-      title: noteToEdit?.title || "",
-      text: noteToEdit?.text || "",
-    },
-  });
+  } = useForm<SignUpWithCredentials>();
 
-  const onSubmit = async (input: NoteInput) => {
+  const onSubmit = async (credentials: SignUpWithCredentials) => {
     try {
-      let noteResponse: Note;
-      if (noteToEdit) {
-        noteResponse = await NotesApi.updateNote(noteToEdit._id, input);
-      } else {
-        noteResponse = await NotesApi.createNote(input);
-      }
-      onSave(noteResponse);
+      const newUser = await NotesApi.signUp(credentials);
+      onSuccessful(newUser);
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <Modal open onClose={onDismiss}>
       <Container
@@ -54,7 +43,7 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
         }}
       >
         <Typography variant="h4" paddingY={2}>
-          {noteToEdit ? "Edit note" : "Add note"}
+          Sign Up
         </Typography>
         <Divider
           variant="fullWidth"
@@ -62,7 +51,7 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
             marginBottom: 4,
           }}
         />
-        <form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
+        <form id="loginForm" onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
               display: "flex",
@@ -71,23 +60,32 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
             }}
           >
             <TextInputField
-              name="title"
-              label="Title"
-              variant="standard"
-              placeholder="Title"
+              name="username"
+              label="Username"
+              placeholder="username"
               register={register}
               registerOptions={{ required: "Required" }}
-              error={errors.title}
+              error={errors.username}
             />
             <TextInputField
-              name="text"
-              label="Text"
-              variant="outlined"
-              placeholder="Text"
-              multiline
-              rows={3}
+              name="email"
+              label="Email"
+              placeholder="email"
+              type="email"
               register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.email}
             />
+            <TextInputField
+              name="password"
+              label="Password"
+              placeholder="password"
+              type="password"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.password}
+            />
+
             <Box
               sx={{
                 alignSelf: "flex-end",
@@ -95,14 +93,14 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
             >
               <Button
                 type="submit"
-                form={"addEditNoteForm"}
+                form={"loginForm"}
                 variant="contained"
                 disabled={isSubmitting}
                 sx={{
                   marginRight: 0,
                 }}
               >
-                {noteToEdit ? "Edit note" : "Create note"}
+                Register
               </Button>
             </Box>
           </Box>
@@ -112,4 +110,4 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
   );
 };
 
-export default NoteDialogPopUp;
+export default SingUp;

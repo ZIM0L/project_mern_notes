@@ -29,7 +29,7 @@ const Note = ({ note,onNoteClicked, onDeleteNoteClick }: NoteProps) => {
       >
         <Typography variant="h5" sx={{ fontWeight: "bold", display:"flex", justifyContent:"space-between", width:"100%" }}>
           {note.title}
-        <MdDeleteForever className={"hover:cursor-pointer"} onClick={(e)=> {
+        <MdDeleteForever className={"hover:cursor-auto"} onClick={(e)=> {
           e.stopPropagation();
           onDeleteNoteClick(note)
         }} />

@@ -1,4 +1,5 @@
 import { Note } from "../models/note";
+import { User } from "../models/user";
 
 export type NoteProps = {
     note: Note
@@ -18,4 +19,9 @@ export type TopBarProps = {
 export type NoteInput = {
     title: string,
     text: string
+}
+
+export type SignUpAndLoginModalProps = {
+    onDismiss: () => void
+    onSuccessful: (user : User) => void
 }

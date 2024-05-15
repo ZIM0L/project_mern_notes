@@ -1,9 +1,12 @@
 import { NoteInput } from "../interfaces/PropsTypes";
 import { Note } from "../models/note";
+import { LoginCredentials, SignUpWithCredentials, User } from "../models/user";
 
-const endpoint = "http://localhost:5000/api/notes"
+const endpointNotes = "http://localhost:5000/api/notes"
+const endpointUser = "http://localhost:5000/api/users"
+
 export const fetchDataGetReq = async (): Promise<Note[]> => {
-  return await fetch(endpoint, {
+  return await fetch(endpointNotes, {
     method: "GET",
   }).then(async (response) => {
     if (!response.ok) {
@@ -16,7 +19,7 @@ export const fetchDataGetReq = async (): Promise<Note[]> => {
 export const createNote = async (
   note: NoteInput
 ): Promise<Note> => {
-    return await fetch(endpoint,
+    return await fetch(endpointNotes,
     { method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,7 +36,7 @@ export const createNote = async (
 };
 
 export const updateNote = async (noteId : string, note : NoteInput) : Promise<Note> => {
-  return await fetch(endpoint + "/" + noteId,
+  return await fetch(endpointNotes + "/" + noteId,
     { method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -50,7 +53,45 @@ export const updateNote = async (noteId : string, note : NoteInput) : Promise<No
 }
 
 export const deleteNote = async (noteId : string) => {
-  await fetch(endpoint + "/" +noteId, {
+  await fetch(endpointNotes + "/" + noteId, {
     method: "DELETE"
   })
+}
+
+export const loginUserWithCookie = async () : Promise<User> => {
+  return await fetch(endpointUser, {
+    method: "GET"
+  }).then((response) => {
+    return response.json()
+  })
+}
+
+export const signUp = async ( credentials : SignUpWithCredentials ) : Promise<User> => {
+  return await fetch(endpointUser + "/signup" , {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(credentials)
+  }).then((response) => {
+    return response.json()
+  })
+}
+
+export const login = async (  credentials : LoginCredentials ) : Promise<User> => {
+  return await fetch(endpointUser + "/login" , {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(credentials)
+  }).then((response) => {
+    return response.json()
+  })
+}
+
+export const logout = async () => {
+    await fetch(endpointUser + "/logout", {
+      method: "POST"
+    })
 }

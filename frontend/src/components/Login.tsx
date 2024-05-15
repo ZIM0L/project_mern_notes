@@ -1,43 +1,25 @@
-import {
-  Container,
-  Divider,
-  Box,
-  Modal,
-  Typography,
-  Button,
-} from "@mui/material";
-import { DialogProps, NoteInput } from "../interfaces/PropsTypes";
+import { SignUpAndLoginModalProps } from "../interfaces/PropsTypes"
+import { LoginCredentials } from "../models/user";
 import { useForm } from "react-hook-form";
 import * as NotesApi from "../api/notes_api";
-import { Note } from "../models/note";
+import { Modal, Box, Typography, Button, Divider, Container } from "@mui/material";
 import TextInputField from "./forms/TextInputField";
 
-const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<NoteInput>({
-    defaultValues: {
-      title: noteToEdit?.title || "",
-      text: noteToEdit?.text || "",
-    },
-  });
+const Login = ( { onDismiss, onSuccessful } : SignUpAndLoginModalProps) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+      } = useForm<LoginCredentials>();
 
-  const onSubmit = async (input: NoteInput) => {
-    try {
-      let noteResponse: Note;
-      if (noteToEdit) {
-        noteResponse = await NotesApi.updateNote(noteToEdit._id, input);
-      } else {
-        noteResponse = await NotesApi.createNote(input);
-      }
-      onSave(noteResponse);
-    } catch (error) {
-      console.error(error);
+    const onSubmit = async ( credentials : LoginCredentials) => {
+        try {
+            const user = await NotesApi.login(credentials)
+            onSuccessful(user)
+        } catch (error) {
+            console.error(error)
+        }
     }
-  };
-
   return (
     <Modal open onClose={onDismiss}>
       <Container
@@ -54,7 +36,7 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
         }}
       >
         <Typography variant="h4" paddingY={2}>
-          {noteToEdit ? "Edit note" : "Add note"}
+          Log in
         </Typography>
         <Divider
           variant="fullWidth"
@@ -62,7 +44,7 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
             marginBottom: 4,
           }}
         />
-        <form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
+        <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
               display: "flex",
@@ -71,23 +53,23 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
             }}
           >
             <TextInputField
-              name="title"
-              label="Title"
-              variant="standard"
-              placeholder="Title"
+              name="username"
+              label="Username"
+              placeholder="username"
               register={register}
               registerOptions={{ required: "Required" }}
-              error={errors.title}
+              error={errors.username}
             />
             <TextInputField
-              name="text"
-              label="Text"
-              variant="outlined"
-              placeholder="Text"
-              multiline
-              rows={3}
+              name="password"
+              label="Password"
+              placeholder="password"
+              type="password"
               register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.password}
             />
+
             <Box
               sx={{
                 alignSelf: "flex-end",
@@ -95,21 +77,21 @@ const NoteDialogPopUp = ({ noteToEdit, onDismiss, onSave }: DialogProps) => {
             >
               <Button
                 type="submit"
-                form={"addEditNoteForm"}
+                form={"addUserForm"}
                 variant="contained"
                 disabled={isSubmitting}
                 sx={{
                   marginRight: 0,
                 }}
               >
-                {noteToEdit ? "Edit note" : "Create note"}
+                Register
               </Button>
             </Box>
           </Box>
         </form>
       </Container>
     </Modal>
-  );
-};
+  )
+}
 
-export default NoteDialogPopUp;
+export default Login
