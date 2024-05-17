@@ -1,9 +1,10 @@
 import  { useState } from 'react';
-import { Drawer, ListItem, List, ListItemButton, Button, AppBar } from '@mui/material';
-import { TopBarProps } from '../interfaces/PropsTypes';
-import NoteDialogPopUp from './NoteDialogPopUp';
+import { Drawer, ListItem, List, ListItemButton } from '@mui/material';
+import { TopBarProps } from '../../interfaces/PropsTypes';
+import NoteDialogPopUp from '../NoteDialogPopUp';
 import SingUp from './SingUp';
 import Login from './Login';
+import NavBar from './NavBar';
 
 const TopBar = ({ notes,setNote }: TopBarProps) => {
   const [showTopBar, setShowTopBar] = useState(false);
@@ -20,9 +21,15 @@ const TopBar = ({ notes,setNote }: TopBarProps) => {
 
   return (
     <>
-      <AppBar >
+    <NavBar 
+    loggedInUser={null}
+    onLoginClicked={()=> {}}
+    onLogoutpClicked={()=> {}}
+    onSignUpClicked={()=> {}}
+    onClickOpenPanel={setShowTopBar}/>
+      {/* <AppBar >
         <Button variant='contained' onClick={() => setShowTopBar(true)}>Open Panel</Button>
-      </AppBar>
+      </AppBar> */}
       <Drawer open={showTopBar} onClose={() => setShowTopBar(false)} anchor='top'>
         <List>
           <ListItem>
@@ -41,7 +48,7 @@ const TopBar = ({ notes,setNote }: TopBarProps) => {
         false && <SingUp onDismiss={() => handleCloseDialog()} onSuccessful={() => {}}/>
       }
       {
-        false && <Login onDismiss={() => handleCloseDialog()} onSuccessful={() => {}}/>
+        true && <Login onDismiss={() => handleCloseDialog()} onSuccessful={() => {}}/>
       }
       {showAddNoteDialog && (
         <NoteDialogPopUp

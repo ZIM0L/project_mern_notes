@@ -32,7 +32,7 @@ const TextInputField = ({
       />
       {error?.message && (
         <Alert severity="warning">
-          Title is needed in order to create note.
+          {label} is required.
         </Alert>
       )}
     </>

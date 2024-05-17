@@ -1,32 +1,25 @@
-import { SignUpAndLoginModalProps } from "../interfaces/PropsTypes";
+import { SignUpAndLoginModalProps } from "../../interfaces/PropsTypes"
+import { LoginCredentials } from "../../models/user";
 import { useForm } from "react-hook-form";
-import { SignUpWithCredentials } from "../models/user";
-import * as NotesApi from "../api/notes_api";
-import {
-  Box,
-  Button,
-  Divider,
-  Container,
-  Modal,
-  Typography,
-} from "@mui/material";
-import TextInputField from "./forms/TextInputField";
+import * as NotesApi from "../../api/notes_api";
+import { Modal, Box, Typography, Button, Divider, Container } from "@mui/material";
+import TextInputField from "../forms/TextInputField";
 
-const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<SignUpWithCredentials>();
+const Login = ( { onDismiss, onSuccessful } : SignUpAndLoginModalProps) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+      } = useForm<LoginCredentials>();
 
-  const onSubmit = async (credentials: SignUpWithCredentials) => {
-    try {
-      const newUser = await NotesApi.signUp(credentials);
-      onSuccessful(newUser);
-    } catch (error) {
-      console.error(error);
+    const onSubmit = async ( credentials : LoginCredentials) => {
+        try {
+            const user = await NotesApi.login(credentials)
+            onSuccessful(user)
+        } catch (error) {
+            console.error(error)
+        }
     }
-  };
   return (
     <Modal open onClose={onDismiss}>
       <Container
@@ -43,7 +36,7 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
         }}
       >
         <Typography variant="h4" paddingY={2}>
-          Sign Up
+          Log in
         </Typography>
         <Divider
           variant="fullWidth"
@@ -51,7 +44,7 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
             marginBottom: 4,
           }}
         />
-        <form id="loginForm" onSubmit={handleSubmit(onSubmit)}>
+        <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
               display: "flex",
@@ -66,15 +59,6 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
               register={register}
               registerOptions={{ required: "Required" }}
               error={errors.username}
-            />
-            <TextInputField
-              name="email"
-              label="Email"
-              placeholder="email"
-              type="email"
-              register={register}
-              registerOptions={{ required: "Required" }}
-              error={errors.email}
             />
             <TextInputField
               name="password"
@@ -93,7 +77,7 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
             >
               <Button
                 type="submit"
-                form={"loginForm"}
+                form={"addUserForm"}
                 variant="contained"
                 disabled={isSubmitting}
                 sx={{
@@ -107,7 +91,7 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
         </form>
       </Container>
     </Modal>
-  );
-};
+  )
+}
 
-export default SingUp;
+export default Login

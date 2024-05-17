@@ -3,7 +3,7 @@ import "./App.css";
 import Note from "./components/Notes";
 import { Note as NotesType } from "./models/note";
 import { Grid, CircularProgress, Typography } from "@mui/material";
-import TopBar from "./components/TopBar";
+import TopBar from "./components/NavBar/TopBar";
 import * as NotesApi from "./api/notes_api";
 import NoteDialogPopUp from "./components/NoteDialogPopUp";
 import { auto } from "@popperjs/core";
