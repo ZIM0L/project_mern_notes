@@ -6,11 +6,12 @@ WHAT I LEARNED:
 -- creating POST request
 -- variable in endpoints
 -- generics in ts
--- createhttpErrors
+-- handle createhttpErrors
 -- what is CORS
 -- how fetch works
 -- learned what is react-hook-form (usefull)
--- exploring MUI
+-- exploring MUI library
 -- how to adjust types to my needs
 -- bcrypt for hashing 
 -- difference between cookie, session and token
+-- express session

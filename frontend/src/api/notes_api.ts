@@ -8,6 +8,7 @@ const endpointUser = "http://localhost:5000/api/users"
 export const fetchDataGetReq = async (): Promise<Note[]> => {
   return await fetch(endpointNotes, {
     method: "GET",
+    credentials: 'include',
   }).then(async (response) => {
     if (!response.ok) {
       const errorMsg = await response.json();
@@ -21,6 +22,7 @@ export const createNote = async (
 ): Promise<Note> => {
     return await fetch(endpointNotes,
     { method: "POST",
+    credentials: 'include',
       headers: {
         "Content-Type": "application/json"
       },
@@ -38,6 +40,7 @@ export const createNote = async (
 export const updateNote = async (noteId : string, note : NoteInput) : Promise<Note> => {
   return await fetch(endpointNotes + "/" + noteId,
     { method: "PATCH",
+    credentials: 'include',
       headers: {
         "Content-Type": "application/json"
       },
@@ -54,7 +57,8 @@ export const updateNote = async (noteId : string, note : NoteInput) : Promise<No
 
 export const deleteNote = async (noteId : string) => {
   await fetch(endpointNotes + "/" + noteId, {
-    method: "DELETE"
+    method: "DELETE",
+    credentials: 'include'
   })
 }
 
