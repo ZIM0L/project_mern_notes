@@ -7,3 +7,6 @@ export interface LoginBody {
     username?: string,
     password?: string
 }
+export interface findUserBody { 
+    id?: string
+}

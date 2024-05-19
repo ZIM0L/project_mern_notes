@@ -1,8 +1,9 @@
 import { RequestHandler } from "express";
-import { IUser, LoginBody } from "../utils/userInterface";
+import { IUser, LoginBody, findUserBody } from "../utils/userInterface";
 import createHttpError from "http-errors";
 import UserModel from "../models/userSchema";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 export const getAuthenticatedUser: RequestHandler = async (req,res,next) => {
   const authenticatedUserId = req.session.userId
@@ -99,6 +100,28 @@ export const login: RequestHandler<
     }
     //session established !!
     req.session.userId = user._id
+    res.status(201).json(user)
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findUser: RequestHandler<
+  unknown,
+  unknown,
+  findUserBody,
+  unknown
+> = async (req, res, next) => {
+  const user_id = req.body.id
+  try {
+    if (!mongoose.isValidObjectId(user_id)) {
+      throw createHttpError(400, "Parameters missing");
+    }
+    const user = await UserModel.findById(user_id).exec()
+    if (!user) {
+      throw createHttpError(401, "Invalid credentials");
+    }
+ 
     res.status(201).json(user)
   } catch (error) {
     next(error);

@@ -60,7 +60,8 @@ export const deleteNote = async (noteId : string) => {
 
 export const loginUserWithCookie = async () : Promise<User> => {
   return await fetch(endpointUser, {
-    method: "GET"
+    method: "GET",
+    credentials: 'include',
   }).then((response) => {
     return response.json()
   })
@@ -69,6 +70,7 @@ export const loginUserWithCookie = async () : Promise<User> => {
 export const signUp = async ( credentials : SignUpWithCredentials ) : Promise<User> => {
   return await fetch(endpointUser + "/signup" , {
     method: "POST",
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json"
     },
@@ -81,6 +83,7 @@ export const signUp = async ( credentials : SignUpWithCredentials ) : Promise<Us
 export const login = async (  credentials : LoginCredentials ) : Promise<User> => {
   return await fetch(endpointUser + "/login" , {
     method: "POST",
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json"
     },
@@ -92,6 +95,7 @@ export const login = async (  credentials : LoginCredentials ) : Promise<User> =
 
 export const logout = async () => {
     await fetch(endpointUser + "/logout", {
-      method: "POST"
+      method: "POST",
+      credentials: 'include',
     })
 }

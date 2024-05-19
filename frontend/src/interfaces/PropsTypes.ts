@@ -12,8 +12,10 @@ export type DialogProps = {
   noteToEdit?: Note;
 };
 export type TopBarProps = {
+  LoggedInUser: User | null
   notes: Note[];
   setNote: (input: Note[]) => void;
+  setLoggedInUser: ( isLogged : User | null) => void
 };
 
 export type NoteInput = {
@@ -26,17 +28,23 @@ export type SignUpAndLoginModalProps = {
   onSuccessful: (user: User) => void;
 };
 
+export type NotesPageLoggedInViewProps = {
+  notes: Note[];
+  setNote: (input: Note[]) => void;
+}
+
+
+//not used rn
 export type NavBarProps = {
   loggedInUser: User | null;
   onClickOpenPanel: (state: boolean) => void;
   onSignUpClicked: () => void;
   onLoginClicked: () => void;
-  onLogoutpClicked: () => void;
+  onLogoutSuccessful: () => void;
 };
 
 export type NavBarLoggedInViewProps = {
-  user: User;
-  onLogoutSuccessful: () => void;
+  user: User | null;
 };
 
 export type NavBarLoggedOutViewProps = {

@@ -15,7 +15,11 @@ const Login = ( { onDismiss, onSuccessful } : SignUpAndLoginModalProps) => {
     const onSubmit = async ( credentials : LoginCredentials) => {
         try {
             const user = await NotesApi.login(credentials)
-            onSuccessful(user)
+            if (user.email && user.username) {
+              onSuccessful(user)
+            } else {
+              alert("Wrong Login or Password !")
+            }
         } catch (error) {
             console.error(error)
         }
@@ -84,7 +88,7 @@ const Login = ( { onDismiss, onSuccessful } : SignUpAndLoginModalProps) => {
                   marginRight: 0,
                 }}
               >
-                Register
+                Login
               </Button>
             </Box>
           </Box>

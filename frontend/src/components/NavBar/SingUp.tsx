@@ -22,7 +22,8 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
   const onSubmit = async (credentials: SignUpWithCredentials) => {
     try {
       const newUser = await NotesApi.signUp(credentials);
-      onSuccessful(newUser);
+      onSuccessful(newUser); 
+      console.log(newUser)
     } catch (error) {
       console.error(error);
     }
@@ -100,7 +101,7 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
                   marginRight: 0,
                 }}
               >
-                Register
+                Sign up
               </Button>
             </Box>
           </Box>
