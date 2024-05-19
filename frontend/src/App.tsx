@@ -15,11 +15,11 @@ function App() {
     const fetchLoggedInUser = async () => {
       try {
         const user = await NotesApi.loginUserWithCookie();
-        console.log(user)
+        console.log(user);
         if (!user.username && !user.email) {
-          setLoggedInUser(null)
+          setLoggedInUser(null);
         } else {
-          setLoggedInUser(user)
+          setLoggedInUser(user);
         }
       } catch (error) {
         console.error(error);
