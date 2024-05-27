@@ -15,3 +15,4 @@ WHAT I LEARNED:
 -- bcrypt for hashing 
 -- difference between cookie, session and token
 -- express session
+-- React-router-dom

@@ -4,8 +4,10 @@ import { Note as NoteType } from "./models/note";
 import TopBar from "./components/NavBar/TopBar";
 import * as NotesApi from "./api/notes_api";
 import { User } from "./models/user";
-import NotesPageLoggedInView from "./components/NotesView/NotesPageLoggedInView";
-import NotesPageLoggedOutView from "./components/NotesView/NotesPageLoggedOutView";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginComponent from "./pages/PrivacyPage";
+import PageNotFound from "./pages/PageNotFound";
+import NotesPage from "./pages/NotesPage";
 
 function App() {
   const [notes, setNotes] = useState<NoteType[]>([]);
@@ -15,7 +17,6 @@ function App() {
     const fetchLoggedInUser = async () => {
       try {
         const user = await NotesApi.loginUserWithCookie();
-        console.log(user);
         if (!user.username && !user.email) {
           setLoggedInUser(null);
         } else {
@@ -29,19 +30,31 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <TopBar
-        LoggedInUser={loggedInUser}
-        notes={notes}
-        setNote={setNotes}
-        setLoggedInUser={setLoggedInUser}
-      />
-      {loggedInUser ? (
-        <NotesPageLoggedInView notes={notes} setNote={setNotes} />
-      ) : (
-        <NotesPageLoggedOutView />
-      )}
-    </div>
+    <BrowserRouter>
+      <div>
+        <TopBar
+          LoggedInUser={loggedInUser}
+          notes={notes}
+          setNote={setNotes}
+          setLoggedInUser={setLoggedInUser}
+        />
+        <Routes>
+          <Route
+          path="/"
+          element={<NotesPage loggedInUser={loggedInUser} notes={notes} setNote={setNotes}/>} 
+          />
+          <Route 
+          path="/login"
+          element={<LoginComponent />} 
+          />
+          <Route 
+          path="/*"
+          element={<PageNotFound />} 
+          />
+        </Routes>
+        
+      </div>
+    </BrowserRouter>
   );
 }
 

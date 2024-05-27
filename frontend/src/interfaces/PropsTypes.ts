@@ -51,3 +51,7 @@ export type NavBarLoggedOutViewProps = {
   onSignUpClicked: () => void;
   onLoginClicked: () => void;
 };
+
+export type NotesPageProps = {
+  loggedInUser: User | null,
+} & NotesPageLoggedInViewProps
