@@ -1,18 +1,18 @@
-WHAT I LEARNED:
--- creating schema for moongose 
--- error handling with request (middleware tasks)
--- routing/endpoints for express
--- CRUD (GET, PATCH, POST, DELETE)
--- creating POST request
--- variable in endpoints
--- generics in ts
--- handle createhttpErrors
--- what is CORS
--- how fetch works
--- learned what is react-hook-form (usefull)
--- exploring MUI library
--- how to adjust types to my needs
--- bcrypt for hashing 
--- difference between cookie, session and token
--- express session
--- React-router-dom
+WHAT I LEARNED: <br />
+-- creating schema for moongose <br />
+-- error handling with request (middleware tasks)<br />
+-- routing/endpoints for express<br />
+-- CRUD (GET, PATCH, POST, DELETE)<br />
+-- creating POST request<br />
+-- variable in endpoints<br />
+-- generics in ts <br />
+-- handle createhttpErrors<br />
+-- what is CORS<br />
+-- how fetch works<br />
+-- learned what is react-hook-form (usefull)<br />
+-- exploring MUI library<br />
+-- how to adjust types to my needs<br />
+-- bcrypt for hashing <br />
+-- difference between cookie, session and token<br />
+-- express session<br />
+-- React-router-dom<br />
