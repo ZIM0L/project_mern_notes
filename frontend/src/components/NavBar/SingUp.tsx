@@ -22,8 +22,11 @@ const SingUp = ({ onDismiss, onSuccessful }: SignUpAndLoginModalProps) => {
   const onSubmit = async (credentials: SignUpWithCredentials) => {
     try {
       const newUser = await NotesApi.signUp(credentials);
-      onSuccessful(newUser);
-      console.log(newUser);
+      if (newUser.username && newUser.username) {
+        onSuccessful(newUser);        
+      } else {
+        alert("User already created with these inputs")
+      }
     } catch (error) {
       console.error(error);
     }
