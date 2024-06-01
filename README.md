@@ -17,8 +17,11 @@ Your site address will be http://localhost:PORT/
 TIP: I advice to run 2 seperate terminals in vscode
 
 There are 3 sites
+
 http://localhost:PORT/ - main dashboard
+
 http://localhost:PORT/* - Page not found
+
 http://localhost:PORT/login - test login and password
 
 WHAT I LEARNED: <br />
